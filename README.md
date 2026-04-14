@@ -74,8 +74,8 @@ Demo mode shows realistic sample data so you can explore all features before con
 ### Option 2: Local Server (for OAuth)
 ```bash
 # Clone the repo
-git clone https://github.com/ch-bas/ga4-dashboard.git
-cd ga4-dashboard
+git clone https://github.com/ch-bas/GA4-Analytics-Dashboard.git
+cd GA4-Analytics-Dashboard
 
 # Serve locally (choose one)
 npx serve .              # Node.js
@@ -89,7 +89,7 @@ php -S localhost:8000    # PHP
 1. Fork this repo
 2. Go to Settings → Pages
 3. Enable GitHub Pages from main branch
-4. Access at `https://<your-username>.github.io/ga4-dashboard`
+4. Access at `https://<your-username>.github.io/GA4-Analytics-Dashboard`
 
 ---
 
@@ -127,7 +127,7 @@ To connect your real GA4 data, you need a Google Cloud OAuth Client ID.
 
 ### Step 5: Connect
 1. Open the dashboard
-2. Paste your Client ID
+   2. Paste your Client ID 
 3. Click "Sign in with Google"
 4. Select your GA4 property
 5. Explore your data! 🎉
@@ -136,38 +136,56 @@ To connect your real GA4 data, you need a Google Cloud OAuth Client ID.
 
 ## 📸 Screenshots
 
+<p align="center">
+  <img src="screenshots/setup.png" alt="Setup screen" width="600">
+</p>
+
 <details>
 <summary><b>Overview Dashboard</b></summary>
 <p align="center">
-  <i>Screenshot: Main overview with KPIs and trend chart</i>
+  <img src="screenshots/overview.png" alt="Overview dashboard with KPIs and trend chart" width="800">
 </p>
 </details>
 
 <details>
 <summary><b>Acquisition Channels</b></summary>
 <p align="center">
-  <i>Screenshot: Channel breakdown with donut chart</i>
+  <img src="screenshots/acquisition.png" alt="Channel breakdown with donut chart" width="800">
 </p>
 </details>
 
 <details>
 <summary><b>Audience Demographics</b></summary>
 <p align="center">
-  <i>Screenshot: Age, gender, device, and geo data</i>
+  <img src="screenshots/audience.png" alt="Age, gender, device, and geo data" width="800">
+</p>
+</details>
+
+<details>
+<summary><b>Engagement</b></summary>
+<p align="center">
+  <img src="screenshots/engagement.png" alt="Top pages, events, and activity heatmap" width="800">
 </p>
 </details>
 
 <details>
 <summary><b>User Flow (Sankey)</b></summary>
 <p align="center">
-  <i>Screenshot: Navigation paths visualization</i>
+  <img src="screenshots/user-flow.png" alt="Navigation paths Sankey diagram" width="800">
 </p>
 </details>
 
 <details>
-<summary><b>Activity Heatmap</b></summary>
+<summary><b>E-commerce</b></summary>
 <p align="center">
-  <i>Screenshot: Users by day and hour</i>
+  <img src="screenshots/e-commerce.png" alt="Revenue, transactions, and top products" width="800">
+</p>
+</details>
+
+<details>
+<summary><b>Conversions</b></summary>
+<p align="center">
+  <img src="screenshots/conversions.png" alt="Conversion funnel and events" width="800">
 </p>
 </details>
 
@@ -176,7 +194,7 @@ To connect your real GA4 data, you need a Google Cloud OAuth Client ID.
 ## 📁 Project Structure
 
 ```
-ga4-dashboard/
+GA4-Analytics-Dashboard/
 ├── index.html      # The entire dashboard (single file!)
 ├── README.md       # This file
 ├── LICENSE         # MIT License
@@ -213,7 +231,7 @@ Contributions are welcome! Here are some ideas:
 ### Development
 ```bash
 # Clone
-git clone https://github.com/ch-bas/ga4-dashboard.git
+git clone https://github.com/ch-bas/GA4-Analytics-Dashboard.git
 
 # Make changes to index.html
 

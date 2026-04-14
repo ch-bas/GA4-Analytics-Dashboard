@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GA4 Analytics Dashboard</title>
   <meta name="description" content="Self-hosted Google Analytics 4 dashboard. No backend required.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233266ad' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='18' y1='20' x2='18' y2='10'/><line x1='12' y1='20' x2='12' y2='4'/><line x1='6' y1='20' x2='6' y2='14'/></svg>">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
@@ -23,30 +23,31 @@
     }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #1a1a1a; line-height: 1.5; }
     .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
-    h1 { font-size: 22px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    h1 .badge { font-size: 11px; background: linear-gradient(135deg, var(--primary), var(--purple)); color: #fff; padding: 4px 10px; border-radius: 12px; font-weight: 500; }
-    h1 .demo-badge { background: linear-gradient(135deg, var(--warning), var(--coral)); }
+    .badge { font-size: 11px; background: linear-gradient(135deg, var(--primary), var(--purple)); color: #fff; padding: 4px 10px; border-radius: 12px; font-weight: 500; vertical-align: middle; }
+    .demo-badge { background: linear-gradient(135deg, var(--warning), var(--coral)) !important; }
     .card { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
     .card-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
     label { display: block; font-size: 13px; color: #666; margin-bottom: 6px; }
     input[type="text"], select { width: 100%; padding: 11px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 14px; }
-    input[type="text"]:focus, select:focus { outline: none; border-color: var(--primary); }
+    input[type="text"]:focus, select:focus { outline: 2px solid var(--primary); outline-offset: 2px; border-color: var(--primary); }
+    *:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    *:focus:not(:focus-visible) { outline: none; }
     .btn { background: var(--primary); color: #fff; border: none; padding: 11px 22px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
     .btn:hover { background: #254d82; transform: translateY(-1px); }
-    .btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+    .btn:disabled { background: #ccc; cursor: not-allowed; transform: none; opacity: 0.5; }
     .btn-secondary { background: #fff; color: #333; border: 1px solid #ddd; }
     .btn-secondary:hover { background: #f5f5f5; transform: translateY(-1px); }
-    .btn-demo { background: linear-gradient(135deg, var(--warning), var(--coral)); }
-    .btn-demo:hover { background: linear-gradient(135deg, #a36614, #c04d28); }
-    .btn-small { padding: 6px 12px; font-size: 12px; }
-    .btn-icon { padding: 6px 10px; }
+    .btn-demo { background: #fff; color: var(--primary); border: 2px solid var(--primary); }
+    .btn-demo:hover { background: #f0f5ff; transform: translateY(-1px); }
+    .btn-small { padding: 10px 14px; font-size: 12px; min-height: 44px; display: inline-flex; align-items: center; }
+    .btn-icon { padding: 10px 12px; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
     .btn-group { display: flex; gap: 12px; flex-wrap: wrap; }
     .error { color: var(--danger); font-size: 13px; margin-bottom: 12px; padding: 12px; background: #ffebee; border-radius: 8px; }
     .divider { display: flex; align-items: center; gap: 16px; margin: 20px 0; color: #999; font-size: 13px; }
     .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #e0e0e0; }
     
     .tabs { display: flex; gap: 2px; border-bottom: 1px solid #e0e0e0; margin-bottom: 20px; overflow-x: auto; }
-    .tab { background: none; color: #666; border: none; border-bottom: 2px solid transparent; padding: 10px 12px; font-size: 12px; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+    .tab { background: none; color: #666; border: none; border-bottom: 2px solid transparent; padding: 12px 16px; font-size: 13px; cursor: pointer; white-space: nowrap; transition: all 0.2s; min-height: 44px; }
     .tab:hover { color: #333; background: #f8f8f8; }
     .tab.active { color: #1a1a1a; border-bottom-color: var(--primary); font-weight: 500; }
     
@@ -54,7 +55,7 @@
     .metric-card { background: #f8f8f8; border-radius: 10px; padding: 14px 16px; position: relative; overflow: hidden; }
     .metric-card.highlight { background: linear-gradient(135deg, #f0f5ff 0%, #e8f4f8 100%); }
     .metric-label { font-size: 11px; color: #666; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .metric-value { font-size: 22px; font-weight: 600; display: flex; align-items: baseline; gap: 8px; }
+    .metric-value { font-size: 22px; font-weight: 600; display: flex; align-items: baseline; gap: 8px; font-variant-numeric: tabular-nums; }
     .metric-change { font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: 500; }
     .metric-change.up { background: #e8f5e9; color: #2e7d32; }
     .metric-change.down { background: #ffebee; color: #c62828; }
@@ -83,7 +84,7 @@
     
     .list-header, .list-row { display: grid; grid-template-columns: 1fr 90px 70px; gap: 8px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; align-items: center; }
     .list-header { font-weight: 500; color: #666; border-bottom-color: #e0e0e0; font-size: 11px; text-transform: uppercase; }
-    .list-value { text-align: right; font-weight: 500; }
+    .list-value { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
     .list-change { text-align: right; font-size: 11px; }
     .list-dim { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     
@@ -101,7 +102,7 @@
     .channel-card { background: #f8f8f8; border-radius: 10px; padding: 16px; text-align: center; }
     .channel-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 18px; }
     .channel-name { font-size: 12px; color: #666; margin-bottom: 4px; }
-    .channel-value { font-size: 20px; font-weight: 600; }
+    .channel-value { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
     
     .demo-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
     .demo-label { width: 80px; font-size: 12px; color: #666; }
@@ -121,7 +122,8 @@
     .empty-state { text-align: center; padding: 40px; color: #666; }
     .flex-between { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .hidden { display: none; }
-    .section-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: #333; }
+    .section-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: #333; display: flex; align-items: center; gap: 6px; }
+    .section-title svg, .card-title svg, .channel-icon svg { vertical-align: middle; }
     .compare-toggle { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #666; }
     .compare-toggle input { width: auto; margin: 0; }
     
@@ -137,54 +139,89 @@
     @keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .skip-link { position: absolute; top: -100px; left: 8px; z-index: 9999; padding: 8px 16px; background: var(--primary); color: #fff; border-radius: 4px; font-size: 13px; text-decoration: none; }
+    .skip-link:focus { top: 8px; }
+
+    .setup-wrapper { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 120px); }
+    .setup-card { max-width: 460px; width: 100%; }
+    .setup-hero { text-align: center; margin-bottom: 32px; }
+    .setup-hero-icon { width: 64px; height: 64px; background: linear-gradient(135deg, var(--primary), var(--purple)); border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; color: #fff; }
+    .setup-hero-icon svg { width: 32px; height: 32px; }
+    .setup-hero h2 { font-size: 24px; font-weight: 700; color: #1a1a1a; margin-bottom: 8px; }
+    .setup-hero p { font-size: 14px; color: #666; line-height: 1.6; }
+    .setup-features { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+    .setup-feature { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #555; padding: 8px 10px; background: #f8f9fa; border-radius: 6px; }
+    .setup-feature svg { flex-shrink: 0; color: var(--success); }
+    .setup-divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: #bbb; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+    .setup-divider::before, .setup-divider::after { content: ''; flex: 1; height: 1px; background: #e0e0e0; }
+    .setup-footer { text-align: center; margin-top: 20px; }
+    .setup-footer a { color: var(--primary); text-decoration: none; font-size: 13px; }
+    .setup-footer a:hover { text-decoration: underline; }
 
     @media (max-width: 768px) {
       .metrics-grid { grid-template-columns: repeat(2, 1fr); }
       .two-col { grid-template-columns: 1fr; }
       .list-header, .list-row { grid-template-columns: 1fr 70px; }
       .list-change { display: none; }
-      .github-link { position: static; margin-bottom: 16px; }
+      .github-link { position: static; margin-bottom: 16px; text-align: center; }
+      .setup-wrapper { min-height: auto; padding-top: 20px; }
+      .setup-features { grid-template-columns: 1fr 1fr; gap: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+      .realtime-dot { animation: none; }
     }
   </style>
 </head>
 <body>
-  <a href="#dashboard-screen" class="sr-only" style="position:absolute;top:0;left:0;z-index:9999;padding:8px;background:#fff;clip:auto;width:auto;height:auto;" onfocus="this.style.position='static'" onblur="this.style.position='absolute'">Skip to dashboard</a>
+  <a href="#dashboard-screen" class="skip-link">Skip to dashboard</a>
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
   <div class="github-link">
-    <a href="https://github.com/ch-bas/ga4-dashboard" target="_blank">
+    <a href="https://github.com/ch-bas/GA4-Analytics-Dashboard" target="_blank">
       <svg height="18" viewBox="0 0 16 16" width="18" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
       Star on GitHub
     </a>
   </div>
 
   <div class="container" role="main">
-    <h1>
-      📊 GA4 Analytics Dashboard
-      <span class="badge" id="mode-badge">PRO</span>
-    </h1>
-    
     <!-- Setup Screen -->
-    <div id="setup-screen" class="card">
-      <div class="card-title">Connect to Google Analytics 4</div>
-      <p class="info-text">
-        Enter your Google Cloud OAuth 2.0 Client ID to connect your GA4 data. 
-        Need help? See the <a href="https://github.com/ch-bas/ga4-dashboard#-google-cloud-setup" target="_blank">setup guide</a>.
-      </p>
-      <label>OAuth Client ID</label>
-      <input type="text" id="client-id-input" placeholder="123456789-abc.apps.googleusercontent.com" aria-label="OAuth Client ID">
-      <div id="setup-error" class="error hidden"></div>
-      <div class="btn-group">
-        <button id="auth-btn" class="btn">Sign in with Google</button>
+    <div id="setup-screen">
+      <div class="setup-wrapper">
+        <div class="setup-card">
+          <div class="setup-hero">
+            <div class="setup-hero-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
+            <h2>GA4 Analytics Dashboard</h2>
+            <p>Your analytics data, visualized beautifully. No backend, no tracking — just you and Google.</p>
+          </div>
+          <div class="setup-features">
+            <div class="setup-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 7 report tabs</div>
+            <div class="setup-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Real-time users</div>
+            <div class="setup-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> CSV export</div>
+            <div class="setup-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 100% private</div>
+          </div>
+          <div class="card">
+            <label>OAuth Client ID</label>
+            <input type="text" id="client-id-input" placeholder="123456789-abc.apps.googleusercontent.com" aria-label="OAuth Client ID">
+            <div id="setup-error" class="error hidden"></div>
+            <button id="auth-btn" class="btn" style="width:100%">Sign in with Google</button>
+            <div class="setup-divider">or</div>
+            <button id="demo-btn" class="btn btn-demo" style="width:100%">Try Demo Mode</button>
+            <p style="font-size:12px;color:#999;margin-top:10px;text-align:center">
+              Explore all features with sample data — no setup needed.
+            </p>
+          </div>
+          <div class="setup-footer">
+            <a href="https://github.com/ch-bas/GA4-Analytics-Dashboard#-google-cloud-setup" target="_blank">Need help with setup?</a>
+          </div>
+        </div>
       </div>
-      <div class="divider">or</div>
-      <button id="demo-btn" class="btn btn-demo" style="width:100%">🎮 Try Demo Mode</button>
-      <p style="font-size:12px;color:#888;margin-top:12px;text-align:center">
-        Demo mode shows sample data so you can explore all features without setup.
-      </p>
     </div>
 
     <!-- Property Selection -->
-    <div id="select-screen" class="card hidden">
+    <div id="select-screen" class="hidden" style="max-width:520px;margin:40px auto">
+    <div class="card">
       <div class="card-title">Select Property</div>
       <div id="properties-list" style="max-height: 200px; overflow-y: auto;"></div>
       <label>Date Range</label>
@@ -199,7 +236,8 @@
         Compare to previous period
       </label>
       <div id="select-error" class="error hidden"></div>
-      <button id="view-btn" class="btn" disabled>View Analytics</button>
+      <button id="view-btn" class="btn" style="width:100%" disabled>View Analytics</button>
+    </div>
     </div>
 
     <!-- Dashboard -->
@@ -207,6 +245,7 @@
       <div class="header">
         <div class="header-left">
           <div id="prop-name" class="header-title"></div>
+          <span class="badge" id="mode-badge">PRO</span>
           <div id="realtime-badge" class="realtime hidden">
             <span class="realtime-dot"></span>
             <span id="realtime-count">0 live</span>
@@ -273,6 +312,34 @@
     function formatCurrency(n) { return '$' + n.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
     function calcChange(curr, prev) { if (!prev || prev === 0) return { pct: 0, dir: 'neutral' }; const pct = ((curr - prev) / prev) * 100; return { pct: Math.abs(pct).toFixed(1), dir: pct > 0 ? 'up' : pct < 0 ? 'down' : 'neutral' }; }
     function destroyCharts() { Object.values(charts).forEach(c => c?.destroy()); charts = {}; }
+
+    // SVG icon system (Lucide-style, 16x16)
+    const icons = {
+      chart: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
+      trendUp: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>',
+      search: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
+      link: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+      externalLink: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>',
+      smartphone: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>',
+      dollarSign: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+      mail: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+      megaphone: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>',
+      image: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>',
+      globe: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+      user: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+      users: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+      fileText: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
+      zap: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+      clock: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+      pieChart: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>',
+      package: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>',
+      trophy: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>',
+      target: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
+      rocket: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>',
+      funnel: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>',
+      play: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
+    };
+    function icon(name) { return icons[name] || ''; }
 
     // XSS protection
     function escapeHtml(str) {
@@ -797,11 +864,11 @@
           </div>`).join('')}
         </div>
         <div class="card">
-          <div class="flex-between"><div class="section-title">📈 Traffic Trend</div><button class="btn btn-secondary btn-small" id="export-overview">Export CSV</button></div>
+          <div class="flex-between"><div class="section-title">${icon('trendUp')} Traffic Trend</div><button class="btn btn-secondary btn-small" id="export-overview">Export CSV</button></div>
           <div class="legend">
-            <span class="legend-item"><span class="legend-dot" style="background:var(--primary)"></span> Sessions</span>
-            <span class="legend-item"><span class="legend-dot" style="background:var(--success)"></span> Users</span>
-            <span class="legend-item"><span class="legend-dot" style="background:var(--coral)"></span> Page Views</span>
+            <span class="legend-item"><svg width="16" height="10"><line x1="0" y1="5" x2="16" y2="5" stroke="var(--primary)" stroke-width="2"/></svg> Sessions</span>
+            <span class="legend-item"><svg width="16" height="10"><line x1="0" y1="5" x2="16" y2="5" stroke="var(--success)" stroke-width="2" stroke-dasharray="6,3"/></svg> Users</span>
+            <span class="legend-item"><svg width="16" height="10"><line x1="0" y1="5" x2="16" y2="5" stroke="var(--coral)" stroke-width="2" stroke-dasharray="2,2"/></svg> Page Views</span>
           </div>
           <div class="chart-container"><canvas id="overview-chart"></canvas></div>
         </div>`;
@@ -814,9 +881,9 @@
           data: {
             labels: rows.map(r => { const d = r.dimensionValues[0].value; return d.slice(4,6)+'/'+d.slice(6,8); }),
             datasets: [
-              { label: 'Sessions', data: rows.map(r => parseInt(r.metricValues[0].value)), borderColor: '#3266ad', backgroundColor: 'rgba(50,102,173,0.1)', fill: true, tension: 0.3 },
-              { label: 'Users', data: rows.map(r => parseInt(r.metricValues[1].value)), borderColor: '#1D9E75', tension: 0.3 },
-              { label: 'Views', data: rows.map(r => parseInt(r.metricValues[2].value)), borderColor: '#D85A30', tension: 0.3 }
+              { label: 'Sessions', data: rows.map(r => parseInt(r.metricValues[0].value)), borderColor: '#3266ad', backgroundColor: 'rgba(50,102,173,0.1)', fill: true, tension: 0.3, borderDash: [] },
+              { label: 'Users', data: rows.map(r => parseInt(r.metricValues[1].value)), borderColor: '#1D9E75', tension: 0.3, borderDash: [6, 3] },
+              { label: 'Views', data: rows.map(r => parseInt(r.metricValues[2].value)), borderColor: '#D85A30', tension: 0.3, borderDash: [2, 2] }
             ]
           },
           options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { beginAtZero: true } } }
@@ -830,11 +897,11 @@
       const sources = state.data.sources?.rows || [];
       const prevChannels = state.prevData.channels?.rows || [];
       const channelColors = { 'Organic Search': '#1D9E75', 'Direct': '#3266ad', 'Referral': '#BA7517', 'Organic Social': '#D4537E', 'Paid Search': '#534AB7', 'Email': '#D85A30', 'Paid Social': '#639922', 'Display': '#5F5E5A' };
-      const channelIcons = { 'Organic Search': '🔍', 'Direct': '🔗', 'Referral': '↗️', 'Organic Social': '📱', 'Paid Search': '💰', 'Email': '📧', 'Paid Social': '📢', 'Display': '🖼️' };
+      const channelIcons = { 'Organic Search': icon('search'), 'Direct': icon('link'), 'Referral': icon('externalLink'), 'Organic Social': icon('smartphone'), 'Paid Search': icon('dollarSign'), 'Email': icon('mail'), 'Paid Social': icon('megaphone'), 'Display': icon('image') };
       const totalSessions = channels.reduce((a, r) => a + parseInt(r.metricValues[0].value), 0);
 
       tabContent.innerHTML = `
-        <div class="section-title">📊 Channels Overview</div>
+        <div class="section-title">${icon('chart')} Channels Overview</div>
         <div class="metrics-grid" style="grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));">
           ${channels.slice(0, 6).map(r => {
             const name = r.dimensionValues[0].value;
@@ -842,12 +909,12 @@
             const pct = ((sessions / totalSessions) * 100).toFixed(1);
             const prevRow = prevChannels.find(p => p.dimensionValues[0].value === name);
             const change = prevRow ? calcChange(sessions, parseInt(prevRow.metricValues[0].value)) : null;
-            return `<div class="channel-card"><div class="channel-icon" style="background:${channelColors[name] || '#888'}20; color:${channelColors[name] || '#888'}">${channelIcons[name] || '📈'}</div><div class="channel-name">${escapeHtml(name)}</div><div class="channel-value">${formatNumber(sessions)}</div><div style="font-size:11px;color:${channelColors[name] || '#888'}">${pct}%</div>${change ? `<div class="metric-change ${change.dir}" style="margin-top:4px">${change.dir === 'up' ? '↑' : '↓'}${change.pct}%</div>` : ''}</div>`;
+            return `<div class="channel-card"><div class="channel-icon" style="background:${channelColors[name] || '#888'}20; color:${channelColors[name] || '#888'}">${channelIcons[name] || icon('trendUp')}</div><div class="channel-name">${escapeHtml(name)}</div><div class="channel-value">${formatNumber(sessions)}</div><div style="font-size:11px;color:${channelColors[name] || '#888'}">${pct}%</div>${change ? `<div class="metric-change ${change.dir}" style="margin-top:4px">${change.dir === 'up' ? '↑' : '↓'}${change.pct}%</div>` : ''}</div>`;
           }).join('')}
         </div>
         <div class="two-col" style="margin-top:20px">
-          <div class="card"><div class="section-title">🥧 Channel Distribution</div><div class="chart-container short"><canvas id="channel-chart"></canvas></div></div>
-          <div class="card"><div class="section-title">🔗 Top Sources</div><div class="list-header"><span>Source / Medium</span><span class="list-value">Sessions</span><span class="list-change">Eng.</span></div>${sources.slice(0, 6).map(r => `<div class="list-row"><span class="list-dim">${escapeHtml(r.dimensionValues[0].value)} / ${escapeHtml(r.dimensionValues[1].value)}</span><span class="list-value">${parseInt(r.metricValues[0].value).toLocaleString()}</span><span class="list-change">${(parseFloat(r.metricValues[2].value) * 100).toFixed(0)}%</span></div>`).join('')}</div>
+          <div class="card"><div class="section-title">${icon('pieChart')} Channel Distribution</div><div class="chart-container short"><canvas id="channel-chart"></canvas></div></div>
+          <div class="card"><div class="section-title">${icon('link')} Top Sources</div><div class="list-header"><span>Source / Medium</span><span class="list-value">Sessions</span><span class="list-change">Eng.</span></div>${sources.slice(0, 6).map(r => `<div class="list-row"><span class="list-dim">${escapeHtml(r.dimensionValues[0].value)} / ${escapeHtml(r.dimensionValues[1].value)}</span><span class="list-value">${parseInt(r.metricValues[0].value).toLocaleString()}</span><span class="list-change">${(parseFloat(r.metricValues[2].value) * 100).toFixed(0)}%</span></div>`).join('')}</div>
         </div>`;
 
       if (channels.length) {
@@ -872,12 +939,12 @@
 
       tabContent.innerHTML = `
         <div class="two-col">
-          <div class="card"><div class="section-title">📱 Devices</div><div class="chart-container short"><canvas id="devices-chart"></canvas></div><div style="margin-top:16px">${devices.map(r => { const d = r.dimensionValues[0].value, v = parseInt(r.metricValues[0].value), p = ((v/totalDevices)*100).toFixed(1); return `<div class="demo-bar"><div class="demo-label" style="text-transform:capitalize">${escapeHtml(d)}</div><div class="demo-bar-track"><div class="demo-bar-fill" style="width:${p}%;background:${deviceColors[d]||'#888'}">${p}%</div></div><div class="demo-value">${formatNumber(v)}</div></div>`; }).join('')}</div></div>
-          <div class="card"><div class="section-title">🌍 Top Countries</div><div class="chart-container" style="height:260px"><canvas id="geo-chart"></canvas></div></div>
+          <div class="card"><div class="section-title">${icon('smartphone')} Devices</div><div class="chart-container short"><canvas id="devices-chart"></canvas></div><div style="margin-top:16px">${devices.map(r => { const d = r.dimensionValues[0].value, v = parseInt(r.metricValues[0].value), p = ((v/totalDevices)*100).toFixed(1); return `<div class="demo-bar"><div class="demo-label" style="text-transform:capitalize">${escapeHtml(d)}</div><div class="demo-bar-track"><div class="demo-bar-fill" style="width:${p}%;background:${deviceColors[d]||'#888'}">${p}%</div></div><div class="demo-value">${formatNumber(v)}</div></div>`; }).join('')}</div></div>
+          <div class="card"><div class="section-title">${icon('globe')} Top Countries</div><div class="chart-container" style="height:260px"><canvas id="geo-chart"></canvas></div></div>
         </div>
         <div class="two-col" style="margin-top:16px">
-          <div class="card"><div class="section-title">👤 Age Distribution</div>${ages.length ? ages.map(r => { const a = r.dimensionValues[0].value, v = parseInt(r.metricValues[0].value), p = ((v/totalAge)*100).toFixed(1); return `<div class="demo-bar"><div class="demo-label">${escapeHtml(a)}</div><div class="demo-bar-track"><div class="demo-bar-fill" style="width:${p}%;background:var(--purple)">${p}%</div></div><div class="demo-value">${formatNumber(v)}</div></div>`; }).join('') : '<p style="color:#666;font-size:13px">Enable demographics in GA4 settings.</p>'}</div>
-          <div class="card"><div class="section-title">⚧ Gender Split</div>${genders.length ? `<div class="two-col" style="gap:16px;text-align:center;margin-top:20px">${genders.slice(0,2).map(r => { const g = r.dimensionValues[0].value, v = parseInt(r.metricValues[0].value), p = ((v/totalGender)*100).toFixed(1); return `<div><div style="font-size:40px">${g==='male'?'👨':'👩'}</div><div style="font-size:24px;font-weight:600;margin:8px 0">${p}%</div><div style="font-size:12px;color:#666;text-transform:capitalize">${escapeHtml(g)}</div><div style="font-size:13px;font-weight:500">${formatNumber(v)}</div></div>`; }).join('')}</div>` : '<p style="color:#666;font-size:13px">Enable demographics in GA4 settings.</p>'}</div>
+          <div class="card"><div class="section-title">${icon('user')} Age Distribution</div>${ages.length ? ages.map(r => { const a = r.dimensionValues[0].value, v = parseInt(r.metricValues[0].value), p = ((v/totalAge)*100).toFixed(1); return `<div class="demo-bar"><div class="demo-label">${escapeHtml(a)}</div><div class="demo-bar-track"><div class="demo-bar-fill" style="width:${p}%;background:var(--purple)">${p}%</div></div><div class="demo-value">${formatNumber(v)}</div></div>`; }).join('') : '<p style="color:#666;font-size:13px">Enable demographics in GA4 settings.</p>'}</div>
+          <div class="card"><div class="section-title">${icon('users')} Gender Split</div>${genders.length ? `<div class="two-col" style="gap:16px;text-align:center;margin-top:20px">${genders.slice(0,2).map(r => { const g = r.dimensionValues[0].value, v = parseInt(r.metricValues[0].value), p = ((v/totalGender)*100).toFixed(1); return `<div><div style="font-size:40px">${icon('user')}</div><div style="font-size:24px;font-weight:600;margin:8px 0">${p}%</div><div style="font-size:12px;color:#666;text-transform:capitalize">${escapeHtml(g)}</div><div style="font-size:13px;font-weight:500">${formatNumber(v)}</div></div>`; }).join('')}</div>` : '<p style="color:#666;font-size:13px">Enable demographics in GA4 settings.</p>'}</div>
         </div>`;
 
       if (devices.length) { charts.devices = new Chart($('devices-chart'), { type: 'pie', data: { labels: devices.map(r => r.dimensionValues[0].value), datasets: [{ data: devices.map(r => parseInt(r.metricValues[0].value)), backgroundColor: devices.map(r => deviceColors[r.dimensionValues[0].value] || '#888'), borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } }); }
@@ -892,10 +959,10 @@
 
       tabContent.innerHTML = `
         <div class="two-col">
-          <div class="card"><div class="flex-between"><div class="section-title">📄 Top Pages</div><button class="btn btn-secondary btn-small" id="export-pages">Export</button></div><div class="list-header"><span>Page</span><span class="list-value">Views</span><span class="list-change">Bounce</span></div>${pages.slice(0, 10).map(r => `<div class="list-row"><span class="list-dim" title="${escapeHtml(r.dimensionValues[0].value)}">${escapeHtml(r.dimensionValues[0].value)}</span><span class="list-value">${parseInt(r.metricValues[0].value).toLocaleString()}</span><span class="list-change">${(parseFloat(r.metricValues[3].value) * 100).toFixed(0)}%</span></div>`).join('')}</div>
-          <div class="card"><div class="flex-between"><div class="section-title">⚡ Top Events</div><button class="btn btn-secondary btn-small" id="export-events">Export</button></div><div class="chart-container"><canvas id="events-chart"></canvas></div></div>
+          <div class="card"><div class="flex-between"><div class="section-title">${icon('fileText')} Top Pages</div><button class="btn btn-secondary btn-small" id="export-pages">Export</button></div><div class="list-header"><span>Page</span><span class="list-value">Views</span><span class="list-change">Bounce</span></div>${pages.slice(0, 10).map(r => `<div class="list-row"><span class="list-dim" title="${escapeHtml(r.dimensionValues[0].value)}">${escapeHtml(r.dimensionValues[0].value)}</span><span class="list-value">${parseInt(r.metricValues[0].value).toLocaleString()}</span><span class="list-change">${(parseFloat(r.metricValues[3].value) * 100).toFixed(0)}%</span></div>`).join('')}</div>
+          <div class="card"><div class="flex-between"><div class="section-title">${icon('zap')} Top Events</div><button class="btn btn-secondary btn-small" id="export-events">Export</button></div><div class="chart-container"><canvas id="events-chart"></canvas></div></div>
         </div>
-        ${hourly.length ? `<div class="card" style="margin-top:16px"><div class="section-title">🕐 Activity Heatmap</div><div style="overflow-x:auto">${renderHeatmap(hourly)}</div></div>` : ''}`;
+        ${hourly.length ? `<div class="card" style="margin-top:16px"><div class="section-title">${icon('clock')} Activity Heatmap</div><div style="overflow-x:auto">${renderHeatmap(hourly)}</div></div>` : ''}`;
 
       $('export-pages')?.addEventListener('click', () => exportCSV('pages', pages, ['pagePath'], ['views']));
       $('export-events')?.addEventListener('click', () => exportCSV('events', events, ['eventName'], ['count']));
@@ -960,7 +1027,7 @@
     function renderEcommerce() {
       const products = state.data.products?.rows || [];
       const ecomTrend = state.data.ecomOverview?.rows || [];
-      if (!state.data.ecommerce?.rows?.length && !products.length && !ecomTrend.length) { tabContent.innerHTML = `<div class="card empty-state"><p style="font-size:18px;margin-bottom:12px">📦 E-commerce Not Detected</p><p style="color:#666">Enable e-commerce tracking in GA4.</p></div>`; return; }
+      if (!state.data.ecommerce?.rows?.length && !products.length && !ecomTrend.length) { tabContent.innerHTML = `<div class="card empty-state"><p style="font-size:18px;margin-bottom:12px">${icon('package')} E-commerce Not Detected</p><p style="color:#666">Enable e-commerce tracking in GA4.</p></div>`; return; }
 
       const revenue = ecomTrend.reduce((a, r) => a + parseFloat(r.metricValues[0].value || 0), 0);
       const transactions = ecomTrend.reduce((a, r) => a + parseInt(r.metricValues[1].value || 0), 0);
@@ -968,7 +1035,7 @@
 
       tabContent.innerHTML = `
         <div class="metrics-grid"><div class="metric-card highlight"><div class="metric-label">Revenue</div><div class="metric-value">${formatCurrency(revenue)}</div></div><div class="metric-card"><div class="metric-label">Transactions</div><div class="metric-value">${formatNumber(transactions)}</div></div><div class="metric-card"><div class="metric-label">AOV</div><div class="metric-value">${formatCurrency(aov)}</div></div></div>
-        <div class="two-col"><div class="card"><div class="section-title">💰 Revenue Trend</div><div class="chart-container"><canvas id="revenue-chart"></canvas></div></div><div class="card"><div class="section-title">🏆 Top Products</div><div class="list-header" style="grid-template-columns:1fr 80px 60px"><span>Product</span><span class="list-value">Revenue</span><span class="list-change">Qty</span></div>${products.slice(0, 8).map(r => `<div class="list-row" style="grid-template-columns:1fr 80px 60px"><span class="list-dim">${escapeHtml(r.dimensionValues[0].value)}</span><span class="list-value">${formatCurrency(parseFloat(r.metricValues[0].value))}</span><span class="list-change">${parseInt(r.metricValues[1].value)}</span></div>`).join('') || '<p style="padding:20px;color:#666">No product data</p>'}</div></div>`;
+        <div class="two-col"><div class="card"><div class="section-title">${icon('dollarSign')} Revenue Trend</div><div class="chart-container"><canvas id="revenue-chart"></canvas></div></div><div class="card"><div class="section-title">${icon('trophy')} Top Products</div><div class="list-header" style="grid-template-columns:1fr 80px 60px"><span>Product</span><span class="list-value">Revenue</span><span class="list-change">Qty</span></div>${products.slice(0, 8).map(r => `<div class="list-row" style="grid-template-columns:1fr 80px 60px"><span class="list-dim">${escapeHtml(r.dimensionValues[0].value)}</span><span class="list-value">${formatCurrency(parseFloat(r.metricValues[0].value))}</span><span class="list-change">${parseInt(r.metricValues[1].value)}</span></div>`).join('') || '<p style="padding:20px;color:#666">No product data</p>'}</div></div>`;
 
       if (ecomTrend.length) { charts.revenue = new Chart($('revenue-chart'), { type: 'bar', data: { labels: ecomTrend.map(r => { const d = r.dimensionValues[0].value; return d.slice(4,6)+'/'+d.slice(6,8); }), datasets: [{ data: ecomTrend.map(r => parseFloat(r.metricValues[0].value)), backgroundColor: '#1D9E75', borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } }); }
     }
@@ -977,7 +1044,7 @@
     function renderConversions() {
       const conversions = state.data.conversions?.rows || [];
       const landing = state.data.landing?.rows || [];
-      if (!conversions.length) { tabContent.innerHTML = `<div class="card empty-state"><p style="font-size:18px;margin-bottom:12px">🎯 No Conversions</p><p style="color:#666">Mark events as conversions in GA4.</p></div>`; return; }
+      if (!conversions.length) { tabContent.innerHTML = `<div class="card empty-state"><p style="font-size:18px;margin-bottom:12px">${icon('target')} No Conversions</p><p style="color:#666">Mark events as conversions in GA4.</p></div>`; return; }
 
       const totalConv = conversions.reduce((a, r) => a + parseInt(r.metricValues[0].value), 0);
       const totalUsers = conversions.reduce((a, r) => a + parseInt(r.metricValues[1].value), 0);
@@ -991,8 +1058,8 @@
 
       tabContent.innerHTML = `
         <div class="metrics-grid"><div class="metric-card highlight"><div class="metric-label">Total Conversions</div><div class="metric-value">${formatNumber(totalConv)}</div></div><div class="metric-card"><div class="metric-label">Converting Users</div><div class="metric-value">${formatNumber(totalUsers)}</div></div><div class="metric-card"><div class="metric-label">Conv. Rate</div><div class="metric-value">${rate}%</div></div></div>
-        <div class="two-col"><div class="card"><div class="section-title">🎯 Conversion Events</div><div class="chart-container"><canvas id="conv-chart"></canvas></div></div><div class="card"><div class="section-title">🚀 Top Landing Pages</div><div class="list-header"><span>Page</span><span class="list-value">Sessions</span><span class="list-change">Bounce</span></div>${landing.slice(0, 8).map(r => `<div class="list-row"><span class="list-dim">${escapeHtml(r.dimensionValues[0].value)}</span><span class="list-value">${parseInt(r.metricValues[0].value).toLocaleString()}</span><span class="list-change">${(parseFloat(r.metricValues[2].value) * 100).toFixed(0)}%</span></div>`).join('')}</div></div>
-        <div class="card" style="margin-top:16px"><div class="section-title">📊 Conversion Funnel</div><div style="padding:20px 0">${funnelSteps.map((s, i) => { const w = (s.value / maxVal) * 100; const prev = i > 0 ? funnelSteps[i-1].value : null; const drop = prev ? (((prev - s.value) / prev) * 100).toFixed(1) : null; return `${i > 0 ? `<div class="funnel-connector"></div><div class="funnel-drop">↓ ${drop}% drop</div>` : ''}<div class="funnel-step"><div class="funnel-bar-container"><div class="funnel-bar" style="width:${w}%;background:${s.color}"><span>${s.name}</span></div></div><div class="funnel-stats"><div class="value">${formatNumber(s.value)}</div><div class="rate">${((s.value/maxVal)*100).toFixed(1)}%</div></div></div>`; }).join('')}</div></div>`;
+        <div class="two-col"><div class="card"><div class="section-title">${icon('target')} Conversion Events</div><div class="chart-container"><canvas id="conv-chart"></canvas></div></div><div class="card"><div class="section-title">${icon('rocket')} Top Landing Pages</div><div class="list-header"><span>Page</span><span class="list-value">Sessions</span><span class="list-change">Bounce</span></div>${landing.slice(0, 8).map(r => `<div class="list-row"><span class="list-dim">${escapeHtml(r.dimensionValues[0].value)}</span><span class="list-value">${parseInt(r.metricValues[0].value).toLocaleString()}</span><span class="list-change">${(parseFloat(r.metricValues[2].value) * 100).toFixed(0)}%</span></div>`).join('')}</div></div>
+        <div class="card" style="margin-top:16px"><div class="section-title">${icon('funnel')} Conversion Funnel</div><div style="padding:20px 0">${funnelSteps.map((s, i) => { const w = (s.value / maxVal) * 100; const prev = i > 0 ? funnelSteps[i-1].value : null; const drop = prev ? (((prev - s.value) / prev) * 100).toFixed(1) : null; return `${i > 0 ? `<div class="funnel-connector"></div><div class="funnel-drop">↓ ${drop}% drop</div>` : ''}<div class="funnel-step"><div class="funnel-bar-container"><div class="funnel-bar" style="width:${w}%;background:${s.color}"><span>${s.name}</span></div></div><div class="funnel-stats"><div class="value">${formatNumber(s.value)}</div><div class="rate">${((s.value/maxVal)*100).toFixed(1)}%</div></div></div>`; }).join('')}</div></div>`;
 
       if (conversions.length) { charts.conv = new Chart($('conv-chart'), { type: 'bar', data: { labels: conversions.slice(0, 8).map(r => r.dimensionValues[0].value), datasets: [{ data: conversions.slice(0, 8).map(r => parseInt(r.metricValues[0].value)), backgroundColor: '#1D9E75', borderRadius: 4 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } }); }
     }
@@ -1006,7 +1073,7 @@
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `ga4-${name}-${new Date().toISOString().slice(0,10)}.csv`; a.click();
     }
 
-    console.log('🚀 GA4 Dashboard loaded. Try Demo Mode or connect your GA4 property!');
+    console.log('GA4 Dashboard loaded. Try Demo Mode or connect your GA4 property!');
   </script>
 </body>
 </html>
