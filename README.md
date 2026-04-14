@@ -89,7 +89,7 @@ php -S localhost:8000    # PHP
 1. Fork this repo
 2. Go to Settings → Pages
 3. Enable GitHub Pages from main branch
-4. Access at `https://ch-bas.github.io/ga4-dashboard`
+4. Access at `https://<your-username>.github.io/ga4-dashboard`
 
 ---
 
@@ -122,7 +122,7 @@ To connect your real GA4 data, you need a Google Cloud OAuth Client ID.
 4. Add Authorized JavaScript origins:
    - `http://localhost:3000` (local development)
    - `http://localhost:8000` (Python server)
-   - `https://ch-bas.github.io` (GitHub Pages)
+   - `https://<your-username>.github.io` (GitHub Pages)
 5. Copy the **Client ID**
 
 ### Step 5: Connect
